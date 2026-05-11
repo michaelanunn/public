@@ -6,13 +6,12 @@ import {
   HVACDrawing, 
   ElectricalDrawing, 
   PlumbingDrawing,
+  StructuralGrid,
   TitleBlock
 } from "./mep-drawings"
 
 interface DisciplineConfig {
   id: string
-  label: string
-  color: string
   startPosition: { x: number; y: number }
   convergenceDelay: number
   Drawing: React.ComponentType
@@ -21,34 +20,26 @@ interface DisciplineConfig {
 const disciplines: DisciplineConfig[] = [
   {
     id: "fp",
-    label: "Fire Protection",
-    color: "#ef4444",
-    startPosition: { x: -25, y: -20 },
+    startPosition: { x: -45, y: -40 },
     convergenceDelay: 0,
     Drawing: FireProtectionDrawing,
   },
   {
     id: "hvac",
-    label: "HVAC",
-    color: "#3b82f6",
-    startPosition: { x: 25, y: -20 },
-    convergenceDelay: 0.05,
+    startPosition: { x: 45, y: -40 },
+    convergenceDelay: 0.08,
     Drawing: HVACDrawing,
   },
   {
     id: "elec",
-    label: "Electrical",
-    color: "#eab308",
-    startPosition: { x: -25, y: 20 },
-    convergenceDelay: 0.1,
+    startPosition: { x: -45, y: 40 },
+    convergenceDelay: 0.16,
     Drawing: ElectricalDrawing,
   },
   {
     id: "plumb",
-    label: "Plumbing",
-    color: "#22c55e",
-    startPosition: { x: 25, y: 20 },
-    convergenceDelay: 0.15,
+    startPosition: { x: 45, y: 40 },
+    convergenceDelay: 0.24,
     Drawing: PlumbingDrawing,
   },
 ]
@@ -90,14 +81,13 @@ export function CoordinationAnimation() {
   }, [])
 
   const getDisciplineStyles = useCallback((discipline: DisciplineConfig, progress: number) => {
-    const adjustedProgress = Math.max(0, (progress - discipline.convergenceDelay) / (0.6 - discipline.convergenceDelay))
+    const adjustedProgress = Math.max(0, (progress - discipline.convergenceDelay) / (0.7 - discipline.convergenceDelay))
     const easedProgress = easeOutQuint(Math.min(1, adjustedProgress))
     
     const x = lerp(discipline.startPosition.x, 0, easedProgress)
     const y = lerp(discipline.startPosition.y, 0, easedProgress)
-    // All start visible at 0.6 opacity and converge to 0.9
-    const opacity = lerp(0.6, 0.9, easedProgress)
-    const scale = lerp(0.92, 1, easedProgress)
+    const opacity = lerp(0.15, 0.85, easedProgress)
+    const scale = lerp(0.85, 1, easedProgress)
     
     return {
       transform: `translate(${x}%, ${y}%) scale(${scale})`,
@@ -106,78 +96,37 @@ export function CoordinationAnimation() {
   }, [])
 
   // Title block appears at the end
-  const titleBlockOpacity = scrollProgress > 0.7 ? (scrollProgress - 0.7) / 0.3 : 0
+  const titleBlockOpacity = scrollProgress > 0.75 ? (scrollProgress - 0.75) / 0.25 : 0
   const titleBlockTransform = `translateY(${lerp(20, 0, titleBlockOpacity)}px)`
 
   // Clash detection
-  const showClash = scrollProgress > 0.4 && scrollProgress < 0.8
-  const clashResolved = scrollProgress > 0.7
-  const clashOpacity = showClash ? (clashResolved ? lerp(1, 0, (scrollProgress - 0.7) / 0.1) : 1) : 0
+  const showClash = scrollProgress > 0.5 && scrollProgress < 0.85
+  const clashResolved = scrollProgress > 0.75
+  const clashOpacity = showClash ? (clashResolved ? lerp(1, 0, (scrollProgress - 0.75) / 0.1) : 1) : 0
   
   // Resolved checkmark
-  const showResolved = scrollProgress > 0.75
-
-  // Labels fade out as drawings merge
-  const labelOpacity = lerp(1, 0, Math.min(1, scrollProgress / 0.4))
+  const showResolved = scrollProgress > 0.78
 
   return (
     <div 
       ref={containerRef}
-      className="relative bg-white"
+      className="relative bg-white" // 1. Added explicit white background here
       style={{ height: "200vh" }}
     >
-      <div className="sticky top-0 h-screen flex items-center justify-center p-6 md:p-12">
+      {/* 2. Added a bit of bottom padding to the sticky container to prevent edge-touching */}
+      <div className="sticky top-0 h-screen flex items-center justify-center p-6 md:p-12 pb-24"> 
         <div className="w-full max-w-5xl">
-          {/* Section header */}
-          <div className="text-center mb-8">
-            <p className="text-xs font-medium tracking-[0.3em] uppercase text-neutral-400 mb-3">
-              Unified Coordination
-            </p>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-neutral-900">
-              Four disciplines. One solution.
-            </h2>
-          </div>
-
           {/* Main animation stage */}
           <div 
-            className="relative w-full bg-neutral-50 border border-neutral-200 overflow-hidden shadow-lg"
+            className="relative w-full bg-white border border-neutral-200 overflow-hidden shadow-xl"
             style={{ aspectRatio: "4/3" }}
           >
-            {/* Clean background - no grid boxes */}
-            <div className="absolute inset-0 bg-white" />
-
-            {/* Discipline labels that fade out */}
-            <div 
-              className="absolute inset-0 pointer-events-none z-10"
-              style={{ opacity: labelOpacity, transition: "opacity 0.3s ease" }}
-            >
-              {disciplines.map((discipline, index) => {
-                const positions = [
-                  { top: "8%", left: "15%" },
-                  { top: "8%", right: "15%" },
-                  { bottom: "12%", left: "15%" },
-                  { bottom: "12%", right: "15%" },
-                ]
-                const pos = positions[index]
-                return (
-                  <div
-                    key={discipline.id}
-                    className="absolute flex items-center gap-2"
-                    style={pos as React.CSSProperties}
-                  >
-                    <div 
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: discipline.color }}
-                    />
-                    <span className="text-[10px] md:text-xs font-medium text-neutral-600 tracking-wide uppercase">
-                      {discipline.label}
-                    </span>
-                  </div>
-                )
-              })}
+            {/* Structural grid background */}
+            <div className="absolute inset-0 text-foreground">
+              <StructuralGrid />
             </div>
 
-            {/* Discipline drawings - all visible from start, merging together */}
+            {/* Discipline drawings - no boxes, just the drawings */}
             {disciplines.map((discipline) => {
               const styles = getDisciplineStyles(discipline, scrollProgress)
               return (
@@ -189,7 +138,7 @@ export function CoordinationAnimation() {
                     transition: "none",
                   }}
                 >
-                  <div className="w-[80%] h-[80%] text-neutral-800">
+                  <div className="w-[85%] h-[85%] text-foreground">
                     <discipline.Drawing />
                   </div>
                 </div>
@@ -207,12 +156,12 @@ export function CoordinationAnimation() {
               }}
             >
               <div className="relative">
-                <div className="absolute inset-0 w-4 h-4 bg-red-500/20 rounded-full animate-ping" />
-                <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-[8px] font-bold">!</span>
+                <div className="absolute inset-0 w-4 h-4 bg-foreground/10 rounded-full animate-ping" />
+                <div className="w-4 h-4 bg-foreground rounded-full flex items-center justify-center">
+                  <span className="text-background text-[8px] font-bold">!</span>
                 </div>
               </div>
-              <span className="text-[10px] font-medium text-red-600 tracking-wide uppercase">Conflict</span>
+              <span className="text-[10px] font-medium text-foreground tracking-wide">CONFLICT</span>
             </div>
 
             {/* Resolved indicator */}
@@ -225,17 +174,17 @@ export function CoordinationAnimation() {
                 transition: "opacity 0.4s ease"
               }}
             >
-              <div className="w-4 h-4 border border-emerald-500 bg-emerald-500/10 rounded-full flex items-center justify-center">
-                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-emerald-600">
+              <div className="w-4 h-4 border border-foreground/30 rounded-full flex items-center justify-center">
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M 1.5 4 L 3 5.5 L 6.5 2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <span className="text-[10px] font-medium text-emerald-600 tracking-wide uppercase">Resolved</span>
+              <span className="text-[10px] font-medium text-foreground/60 tracking-wide">RESOLVED</span>
             </div>
 
             {/* Title block */}
             <div 
-              className="absolute bottom-4 right-4 md:bottom-6 md:right-6 w-40 md:w-52 text-neutral-800"
+              className="absolute bottom-6 right-6 w-44 md:w-52 text-foreground"
               style={{ 
                 opacity: titleBlockOpacity,
                 transform: titleBlockTransform,
@@ -246,18 +195,10 @@ export function CoordinationAnimation() {
             </div>
           </div>
 
-          {/* Progress indicator */}
-          <div className="mt-6 flex justify-center">
-            <div className="flex items-center gap-2">
-              {[0, 0.33, 0.66, 1].map((threshold, i) => (
-                <div 
-                  key={i}
-                  className="w-2 h-2 rounded-full transition-all duration-300"
-                  style={{
-                    backgroundColor: scrollProgress >= threshold ? "#171717" : "#e5e5e5",
-                  }}
-                />
-              ))}
+          {/* Progress bar - minimal */}
+          <div >
+            <div>
+              <div />
             </div>
           </div>
         </div>

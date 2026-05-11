@@ -1,7 +1,5 @@
 "use client"
 
-import Image from "next/image"
-
 // Intricate Fire Protection Drawing - detailed sprinkler system
 export function FireProtectionDrawing() {
   return (
@@ -408,77 +406,69 @@ export function PlumbingDrawing() {
   )
 }
 
-// Clean structural grid - minimal column markers only
+// Structural grid with minimal aesthetic
 export function StructuralGrid() {
   return (
     <svg viewBox="0 0 800 600" className="w-full h-full" fill="none">
-      {/* Subtle grid lines only - no boxes */}
-      {['A', 'B', 'C', 'D', 'E'].map((label, i) => (
-        <g key={`col-${label}`}>
-          <line x1={100 + i * 150} y1="60" x2={100 + i * 150} y2="540" stroke="currentColor" strokeWidth="0.2" strokeDasharray="4,8" opacity="0.1" />
-        </g>
-      ))}
+      {/* Fine grid pattern */}
+      <defs>
+        <pattern id="fineGrid" width="25" height="25" patternUnits="userSpaceOnUse">
+          <path d="M 25 0 L 0 0 0 25" fill="none" stroke="currentColor" strokeWidth="0.15" opacity="0.3" />
+        </pattern>
+      </defs>
+      <rect width="800" height="600" fill="url(#fineGrid)" />
       
-      {['1', '2', '3'].map((label, i) => (
-        <g key={`row-${label}`}>
-          <line x1="60" y1={100 + i * 200} x2="740" y2={100 + i * 200} stroke="currentColor" strokeWidth="0.2" strokeDasharray="4,8" opacity="0.1" />
-        </g>
-      ))}
-      
-      {/* Column markers - small crosses instead of boxes */}
+      {/* Structural columns - minimal */}
       {[
         [100, 100], [250, 100], [400, 100], [550, 100], [700, 100],
         [100, 300], [250, 300], [400, 300], [550, 300], [700, 300],
         [100, 500], [250, 500], [400, 500], [550, 500], [700, 500],
       ].map(([x, y], i) => (
         <g key={i}>
-          <line x1={x - 6} y1={y} x2={x + 6} y2={y} stroke="currentColor" strokeWidth="0.3" opacity="0.15" />
-          <line x1={x} y1={y - 6} x2={x} y2={y + 6} stroke="currentColor" strokeWidth="0.3" opacity="0.15" />
+          <rect x={x - 12} y={y - 12} width="24" height="24" fill="currentColor" opacity="0.03" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
+        </g>
+      ))}
+      
+      {/* Grid lines - very subtle */}
+      {['A', 'B', 'C', 'D', 'E'].map((label, i) => (
+        <g key={`col-${label}`}>
+          <line x1={100 + i * 150} y1="40" x2={100 + i * 150} y2="560" stroke="currentColor" strokeWidth="0.3" strokeDasharray="2,4" opacity="0.15" />
+          <circle cx={100 + i * 150} cy="30" r="10" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
+          <text x={100 + i * 150} y="34" textAnchor="middle" fontSize="9" fill="currentColor" opacity="0.25" fontFamily="monospace">{label}</text>
+        </g>
+      ))}
+      
+      {['1', '2', '3'].map((label, i) => (
+        <g key={`row-${label}`}>
+          <line x1="40" y1={100 + i * 200} x2="760" y2={100 + i * 200} stroke="currentColor" strokeWidth="0.3" strokeDasharray="2,4" opacity="0.15" />
+          <circle cx="25" cy={100 + i * 200} r="10" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
+          <text x="25" y={104 + i * 200} textAnchor="middle" fontSize="9" fill="currentColor" opacity="0.25" fontFamily="monospace">{label}</text>
         </g>
       ))}
     </svg>
   )
 }
 
-// Minimal title block with logo
+// Minimal title block
 export function TitleBlock() {
   return (
-    <div className="relative w-full h-full border border-neutral-300 bg-white">
-      {/* Main container */}
-      <div className="flex flex-col h-full">
-        {/* Header with logo */}
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-neutral-200 bg-neutral-50">
-          <Image 
-            src="/logo.png" 
-            alt="Mepology" 
-            width={20} 
-            height={20} 
-            className="w-5 h-5"
-          />
-          <span className="text-xs font-semibold tracking-wide text-neutral-800">MEPOLOGY</span>
-        </div>
-        
-        {/* Project info */}
-        <div className="px-3 py-2 border-b border-neutral-200 flex-1">
-          <div className="text-[7px] text-neutral-400 uppercase tracking-wider mb-0.5">Project</div>
-          <div className="text-[9px] font-medium text-neutral-700">MEP Coordination Sample</div>
-        </div>
-        
-        {/* Bottom row */}
-        <div className="flex">
-          {/* Date */}
-          <div className="flex-1 px-3 py-2 border-r border-neutral-200">
-            <div className="text-[7px] text-neutral-400 uppercase tracking-wider mb-0.5">Date</div>
-            <div className="text-[8px] font-mono text-neutral-600">05.10.2026</div>
-          </div>
-          
-          {/* Sheet number */}
-          <div className="w-16 px-3 py-2 flex flex-col items-center justify-center bg-neutral-50">
-            <div className="text-[7px] text-neutral-400 uppercase tracking-wider mb-0.5">Sheet</div>
-            <div className="text-sm font-semibold font-mono text-neutral-800">M-101</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <svg viewBox="0 0 260 100" className="w-full h-full" fill="none">
+      <rect x="0" y="0" width="260" height="100" fill="currentColor" opacity="0.02" stroke="currentColor" strokeWidth="0.8" />
+      
+      <line x1="0" y1="32" x2="260" y2="32" stroke="currentColor" strokeWidth="0.4" />
+      <line x1="0" y1="64" x2="260" y2="64" stroke="currentColor" strokeWidth="0.4" />
+      <line x1="170" y1="64" x2="170" y2="100" stroke="currentColor" strokeWidth="0.4" />
+      
+      <text x="130" y="20" textAnchor="middle" fontSize="14" fontWeight="600" fill="currentColor" fontFamily="system-ui">MEPOLOGY</text>
+      
+      <text x="10" y="48" fontSize="7" fill="currentColor" opacity="0.5" fontFamily="monospace">PROJECT</text>
+      <text x="10" y="58" fontSize="9" fill="currentColor" fontFamily="system-ui">COORDINATION SAMPLE</text>
+      
+      <text x="10" y="78" fontSize="7" fill="currentColor" opacity="0.5" fontFamily="monospace">DATE</text>
+      <text x="10" y="90" fontSize="8" fill="currentColor" fontFamily="monospace">05.10.2026</text>
+      
+      <text x="215" y="78" textAnchor="middle" fontSize="7" fill="currentColor" opacity="0.5" fontFamily="monospace">SHEET</text>
+      <text x="215" y="94" textAnchor="middle" fontSize="16" fontWeight="600" fill="currentColor" fontFamily="monospace">M-101</text>
+    </svg>
   )
 }
