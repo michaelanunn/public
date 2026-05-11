@@ -406,43 +406,28 @@ export function PlumbingDrawing() {
   )
 }
 
-// Structural grid with minimal aesthetic
+// Structural grid - clean minimal lines only, no boxes
 export function StructuralGrid() {
   return (
     <svg viewBox="0 0 800 600" className="w-full h-full" fill="none">
-      {/* Fine grid pattern */}
+      {/* Fine grid pattern - very subtle */}
       <defs>
-        <pattern id="fineGrid" width="25" height="25" patternUnits="userSpaceOnUse">
-          <path d="M 25 0 L 0 0 0 25" fill="none" stroke="currentColor" strokeWidth="0.15" opacity="0.3" />
+        <pattern id="fineGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.1" opacity="0.15" />
         </pattern>
       </defs>
       <rect width="800" height="600" fill="url(#fineGrid)" />
       
-      {/* Structural columns - minimal */}
-      {[
-        [100, 100], [250, 100], [400, 100], [550, 100], [700, 100],
-        [100, 300], [250, 300], [400, 300], [550, 300], [700, 300],
-        [100, 500], [250, 500], [400, 500], [550, 500], [700, 500],
-      ].map(([x, y], i) => (
-        <g key={i}>
-          <rect x={x - 12} y={y - 12} width="24" height="24" fill="currentColor" opacity="0.03" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-        </g>
-      ))}
-      
-      {/* Grid lines - very subtle */}
+      {/* Grid reference lines only - very subtle dashed lines */}
       {['A', 'B', 'C', 'D', 'E'].map((label, i) => (
         <g key={`col-${label}`}>
-          <line x1={100 + i * 150} y1="40" x2={100 + i * 150} y2="560" stroke="currentColor" strokeWidth="0.3" strokeDasharray="2,4" opacity="0.15" />
-          <circle cx={100 + i * 150} cy="30" r="10" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
-          <text x={100 + i * 150} y="34" textAnchor="middle" fontSize="9" fill="currentColor" opacity="0.25" fontFamily="monospace">{label}</text>
+          <line x1={100 + i * 150} y1="50" x2={100 + i * 150} y2="550" stroke="currentColor" strokeWidth="0.2" strokeDasharray="4,8" opacity="0.1" />
         </g>
       ))}
       
       {['1', '2', '3'].map((label, i) => (
         <g key={`row-${label}`}>
-          <line x1="40" y1={100 + i * 200} x2="760" y2={100 + i * 200} stroke="currentColor" strokeWidth="0.3" strokeDasharray="2,4" opacity="0.15" />
-          <circle cx="25" cy={100 + i * 200} r="10" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
-          <text x="25" y={104 + i * 200} textAnchor="middle" fontSize="9" fill="currentColor" opacity="0.25" fontFamily="monospace">{label}</text>
+          <line x1="50" y1={100 + i * 200} x2="750" y2={100 + i * 200} stroke="currentColor" strokeWidth="0.2" strokeDasharray="4,8" opacity="0.1" />
         </g>
       ))}
     </svg>

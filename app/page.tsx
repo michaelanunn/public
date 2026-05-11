@@ -120,7 +120,7 @@ export default function HomePage() {
       </section>
 
 {/* Coordination Animation Section */}
-<section id="coordination" className="relative bg-white z-0">
+<section id="coordination" className="relative bg-white z-0 overflow-hidden">
   <CoordinationAnimation />
 </section>
 
@@ -311,36 +311,77 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section - BLACK */}
-      <section className="py-32 px-6 bg-black text-white">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-6">
+      {/* CTA Section - Harvey.ai Dark Enterprise Style */}
+      <section className="relative py-40 px-6 bg-black text-white overflow-hidden">
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-neutral-950/50" />
+        
+        {/* Minimal decorative lines */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-neutral-800 to-transparent" />
+        
+        <div className="relative max-w-4xl mx-auto">
+          {/* Eyebrow */}
+          <div className="flex items-center justify-center gap-4 mb-10">
+            <div className="h-px w-12 bg-neutral-800" />
+            <span className="text-[10px] font-medium tracking-[0.4em] uppercase text-neutral-600">
+              Get Started
+            </span>
+            <div className="h-px w-12 bg-neutral-800" />
+          </div>
+          
+          {/* Main heading */}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-center mb-6 leading-[1.1]">
             Ready to coordinate?
           </h2>
-          <p className="text-neutral-500 mb-12 max-w-xl mx-auto text-lg">
-            Send us your drawings and we&apos;ll provide a scope and timeline within 24 hours.
+          
+          {/* Subheading */}
+          <p className="text-neutral-500 text-center mb-16 max-w-2xl mx-auto text-lg leading-relaxed">
+            Send us your drawings and receive a detailed scope and timeline within 24 hours. 
+            No commitment required.
           </p>
+          
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
               size="lg" 
-              className="h-14 px-10 bg-white hover:bg-neutral-100 text-black rounded-full font-medium text-base" 
+              className="h-14 px-12 bg-white hover:bg-neutral-100 text-black rounded-none font-medium text-sm tracking-wide" 
               asChild
             >
               <Link href="https://mepology.com">
                 Start a Project
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-3" />
               </Link>
             </Button>
             <Button 
               variant="outline" 
               size="lg" 
-              className="h-14 px-10 rounded-full border-neutral-700 bg-transparent text-white hover:bg-white/10 hover:text-white font-medium text-base" 
+              className="h-14 px-12 rounded-none border-neutral-800 bg-transparent text-white hover:bg-white/5 hover:border-neutral-700 hover:text-white font-medium text-sm tracking-wide" 
               asChild
             >
               <Link href="https://mepology.com">
                 View Portfolio
               </Link>
             </Button>
+          </div>
+          
+          {/* Trust indicator */}
+          <div className="mt-20 pt-12 border-t border-neutral-900">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 text-center">
+              <div>
+                <div className="text-2xl font-medium text-white mb-1">24hr</div>
+                <div className="text-xs text-neutral-600 tracking-wide uppercase">Response Time</div>
+              </div>
+              <div className="hidden md:block w-px h-10 bg-neutral-800" />
+              <div>
+                <div className="text-2xl font-medium text-white mb-1">500+</div>
+                <div className="text-xs text-neutral-600 tracking-wide uppercase">Projects Delivered</div>
+              </div>
+              <div className="hidden md:block w-px h-10 bg-neutral-800" />
+              <div>
+                <div className="text-2xl font-medium text-white mb-1">15M+ SF</div>
+                <div className="text-xs text-neutral-600 tracking-wide uppercase">Coordinated</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
