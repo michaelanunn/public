@@ -20,26 +20,26 @@ interface DisciplineConfig {
 const disciplines: DisciplineConfig[] = [
   {
     id: "fp",
-    startPosition: { x: -45, y: -40 },
+    startPosition: { x: -35, y: -30 },
     convergenceDelay: 0,
     Drawing: FireProtectionDrawing,
   },
   {
     id: "hvac",
-    startPosition: { x: 45, y: -40 },
-    convergenceDelay: 0.08,
+    startPosition: { x: 35, y: -30 },
+    convergenceDelay: 0.02,
     Drawing: HVACDrawing,
   },
   {
     id: "elec",
-    startPosition: { x: -45, y: 40 },
-    convergenceDelay: 0.16,
+    startPosition: { x: -35, y: 30 },
+    convergenceDelay: 0.04,
     Drawing: ElectricalDrawing,
   },
   {
     id: "plumb",
-    startPosition: { x: 45, y: 40 },
-    convergenceDelay: 0.24,
+    startPosition: { x: 35, y: 30 },
+    convergenceDelay: 0.06,
     Drawing: PlumbingDrawing,
   },
 ]
@@ -81,13 +81,14 @@ export function CoordinationAnimation() {
   }, [])
 
   const getDisciplineStyles = useCallback((discipline: DisciplineConfig, progress: number) => {
-    const adjustedProgress = Math.max(0, (progress - discipline.convergenceDelay) / (0.7 - discipline.convergenceDelay))
+    // Start converging much earlier - complete by 50% scroll
+    const adjustedProgress = Math.max(0, (progress - discipline.convergenceDelay) / (0.45 - discipline.convergenceDelay))
     const easedProgress = easeOutQuint(Math.min(1, adjustedProgress))
     
     const x = lerp(discipline.startPosition.x, 0, easedProgress)
     const y = lerp(discipline.startPosition.y, 0, easedProgress)
-    const opacity = lerp(0.15, 0.85, easedProgress)
-    const scale = lerp(0.85, 1, easedProgress)
+    const opacity = lerp(0.25, 0.9, easedProgress)
+    const scale = lerp(0.92, 1, easedProgress)
     
     return {
       transform: `translate(${x}%, ${y}%) scale(${scale})`,
@@ -95,17 +96,17 @@ export function CoordinationAnimation() {
     }
   }, [])
 
-  // Title block appears at the end
-  const titleBlockOpacity = scrollProgress > 0.75 ? (scrollProgress - 0.75) / 0.25 : 0
-  const titleBlockTransform = `translateY(${lerp(20, 0, titleBlockOpacity)}px)`
+  // Title block appears earlier
+  const titleBlockOpacity = scrollProgress > 0.5 ? (scrollProgress - 0.5) / 0.2 : 0
+  const titleBlockTransform = `translateY(${lerp(15, 0, Math.min(1, titleBlockOpacity))}px)`
 
-  // Clash detection
-  const showClash = scrollProgress > 0.5 && scrollProgress < 0.85
-  const clashResolved = scrollProgress > 0.75
-  const clashOpacity = showClash ? (clashResolved ? lerp(1, 0, (scrollProgress - 0.75) / 0.1) : 1) : 0
+  // Clash detection - starts earlier
+  const showClash = scrollProgress > 0.35 && scrollProgress < 0.65
+  const clashResolved = scrollProgress > 0.55
+  const clashOpacity = showClash ? (clashResolved ? lerp(1, 0, (scrollProgress - 0.55) / 0.1) : 1) : 0
   
-  // Resolved checkmark
-  const showResolved = scrollProgress > 0.78
+  // Resolved checkmark - appears earlier
+  const showResolved = scrollProgress > 0.58
 
   return (
     <div 
