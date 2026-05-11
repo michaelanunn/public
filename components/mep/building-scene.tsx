@@ -8,12 +8,12 @@ import * as THREE from "three"
 function BuildingModel({ progress }: { progress: number }) {
   const groupRef = useRef<THREE.Group>(null)
   
-  useFrame(() => {
-    if (groupRef.current) {
-      // Subtle rotation as you scroll
-      groupRef.current.rotation.y = -Math.PI / 5 + progress * 0.12
-    }
-  })
+  useFrame(() => {
+    if (groupRef.current) {
+      // More pronounced rotation as you scroll - increased from 0.12 to 0.5 (roughly 4x more spin)
+      groupRef.current.rotation.y = -Math.PI / 4 + progress * 0.5
+    }
+  })
 
   // Easing function for smooth animation
   const ease = (t: number) => 1 - Math.pow(1 - t, 4)
@@ -168,7 +168,7 @@ function BuildingModel({ progress }: { progress: number }) {
                 <mesh position={[0, -0.06, 0]}>
                   <sphereGeometry args={[0.02, 8, 8]} />
                   <meshStandardMaterial color="#888888" />
-                </mesh>
+  ��             </mesh>
               </group>
             ))}
             {/* Fire main pipe */}
@@ -362,7 +362,7 @@ export function BuildingScene({ className = "" }: BuildingSceneProps) {
               >
                 <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-neutral-600">
                   Light Fixture
-                </span>
+��               </span>
                 <div className="w-8 h-px bg-neutral-400" />
               </div>
 
