@@ -406,28 +406,32 @@ export function PlumbingDrawing() {
   )
 }
 
-// Structural grid - clean minimal lines only, no boxes
+// Structural grid - drafting paper style with visible lines
 export function StructuralGrid() {
   return (
     <svg viewBox="0 0 800 600" className="w-full h-full" fill="none">
-      {/* Fine grid pattern - very subtle */}
+      {/* Fine grid pattern - more visible drafting paper style */}
       <defs>
-        <pattern id="fineGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.1" opacity="0.15" />
+        <pattern id="fineGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.08" />
+        </pattern>
+        <pattern id="majorGrid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.12" />
         </pattern>
       </defs>
       <rect width="800" height="600" fill="url(#fineGrid)" />
+      <rect width="800" height="600" fill="url(#majorGrid)" />
       
-      {/* Grid reference lines only - very subtle dashed lines */}
+      {/* Grid reference lines - more visible */}
       {['A', 'B', 'C', 'D', 'E'].map((label, i) => (
         <g key={`col-${label}`}>
-          <line x1={100 + i * 150} y1="50" x2={100 + i * 150} y2="550" stroke="currentColor" strokeWidth="0.2" strokeDasharray="4,8" opacity="0.1" />
+          <line x1={100 + i * 150} y1="30" x2={100 + i * 150} y2="570" stroke="currentColor" strokeWidth="0.4" strokeDasharray="8,4" opacity="0.15" />
         </g>
       ))}
       
       {['1', '2', '3'].map((label, i) => (
         <g key={`row-${label}`}>
-          <line x1="50" y1={100 + i * 200} x2="750" y2={100 + i * 200} stroke="currentColor" strokeWidth="0.2" strokeDasharray="4,8" opacity="0.1" />
+          <line x1="30" y1={100 + i * 200} x2="770" y2={100 + i * 200} stroke="currentColor" strokeWidth="0.4" strokeDasharray="8,4" opacity="0.15" />
         </g>
       ))}
     </svg>

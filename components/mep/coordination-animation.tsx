@@ -110,11 +110,11 @@ export function CoordinationAnimation() {
   return (
     <div 
       ref={containerRef}
-      className="relative bg-white py-12"
-      style={{ height: "150vh" }}
+      className="relative bg-white py-8"
+      style={{ height: "120vh" }}
     >
-      {/* Sticky container - centered vertically with proper padding */}
-      <div className="sticky top-[10vh] flex items-start justify-center px-6 md:px-12"> 
+      {/* Sticky container - centered with minimal top offset */}
+      <div className="sticky top-[5vh] flex items-start justify-center px-6 md:px-12"> 
         <div className="w-full max-w-5xl">
           {/* Main animation stage */}
           <div 
