@@ -110,11 +110,11 @@ export function CoordinationAnimation() {
   return (
     <div 
       ref={containerRef}
-      className="relative bg-white" // 1. Added explicit white background here
-      style={{ height: "200vh" }}
+      className="relative bg-white py-12"
+      style={{ height: "150vh" }}
     >
-      {/* 2. Added a bit of bottom padding to the sticky container to prevent edge-touching */}
-      <div className="sticky top-0 h-screen flex items-center justify-center p-6 md:p-12 pb-24"> 
+      {/* Sticky container - centered vertically with proper padding */}
+      <div className="sticky top-[10vh] flex items-start justify-center px-6 md:px-12"> 
         <div className="w-full max-w-5xl">
           {/* Main animation stage */}
           <div 
